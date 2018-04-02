@@ -5,6 +5,7 @@ March-April 2018
 Features for VERB
     VERB comes after "he/she/it/they/you/we"
     If a term has"ed" at the end
+    VERB does come right after another VERB
 
 Features of NOUN
     If a term ends with "s", it is a (plural) NOUN
@@ -12,5 +13,8 @@ Features of NOUN
 COMPLETE:
     Parsing the original datasets from resources folder
     converting datasets to VERB/NOUN/OTHER format (called Tufts format in the code)
+    Four feature functions
+
 INCOMPLETE:
-    CRF train and test (training never finishes)
+    CRF train
+    CRF test (training never finishes)
