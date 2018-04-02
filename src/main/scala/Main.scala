@@ -12,7 +12,8 @@ object HelloWordApp extends App {
   println("Hello world!")
 
 
-  fetch_file("test.txt")
+//  fetch_file("test.txt")
+//  fetch_file("train.txt")
 
   def fetch_file(file_name: String): String = {
 
