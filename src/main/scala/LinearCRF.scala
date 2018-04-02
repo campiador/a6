@@ -8,15 +8,48 @@ object LinearCRF {
   val labels: List[Label] = List("NOUN", "VERB", "OTHER")
 
 
+  // VERB: is followed by "he/she/etc
   def f1(yi: Label, yiminus1: Label, x1: Term, x2: Term, x3:Term) =
   {
-    0.0
+
+    if (yiminus1 == "OTHER") {
+      if (x1 == "he" || x1 == "she" || x1 == "I" || x1 == "you" || x1 == "they" || x1 == "we") {
+        1.0
+      } else 0.0
+    } else 0.0
   }
 
+  // VERB: has "ed"
   def f2(yi: Label, yiminus1: Label, x1: Term, x2: Term, x3:Term) =
   {
-    0.0
+    if (x1.endsWith("ed"))
+      1.0
+    else
+      0.0
   }
+
+  // VERB: cannot come right after another VERB
+  def f3(yi: Label, yiminus1: Label, x1: Term, x2: Term, x3:Term) =
+  {
+    if (yiminus1.equals("VERB")) {
+      0.0
+    } else
+      {
+        1.0
+      }
+
+  }
+
+//  NOUN: if term finishes with s, chances are it is a plural NOUN
+  def f4(yi: Label, yiminus1: Label, x1: Term, x2: Term, x3:Term) =
+  {
+    if (x1.endsWith("s"))
+      1.0
+    else
+      0.0
+  }
+
+
 
   import scala.math._
 
