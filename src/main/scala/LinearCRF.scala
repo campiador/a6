@@ -50,8 +50,22 @@ object LinearCRF {
 
   }
 
+  //VERB: cannot come after "a" and "the"
+  def f4(position: Int, yi: Label, yiminus1: Label, s: Sentence) : Double  =
+  {
+    if (position > 0) {
+      val x_minusone = s(position - 1).toLowerCase
+      if (x_minusone.equals("a") || x_minusone.equals("the")  ) {
+        return 0.0
+      } else
+        return 1.0
+    }
+    return 0.0
+
+  }
+
   // "To be" verbs are always VERB
-  def f4(position: Int, yi: Label, yiminus1: Label, s: Sentence): Double =
+  def f5(position: Int, yi: Label, yiminus1: Label, s: Sentence): Double =
   {
     val x = s(position)
     if (yi.equals("VERB") && (x.equals("were") || x.equals("is") || x.equals("are") || x.equals("was"))) {
@@ -72,7 +86,7 @@ object LinearCRF {
 //  }
 
   // term after salutation is NOUN
-  def f5(position: Int, yi: Label, yiminus1: Label, s: Sentence) :Double =
+  def f6(position: Int, yi: Label, yiminus1: Label, s: Sentence) :Double =
   {
     if (position > 0) {
       val x_minusone = s(position - 1)
@@ -84,7 +98,7 @@ object LinearCRF {
   }
 
   // if a term mid-sentence is capitalized, then it is a NOUN
-  def f6(position: Int, yi: Label, yiminus1: Label, s: Sentence) : Double =
+  def f7(position: Int, yi: Label, yiminus1: Label, s: Sentence) : Double =
   {
     val x = s(position)
     if (yi.equals("NOUN") && !x.equals("I") &&
@@ -95,7 +109,7 @@ object LinearCRF {
   }
 
   // adjectives after "very" are OTHER
-  def f7(position: Int, yi: Label, yiminus1: Label, s: Sentence) : Double =
+  def f8(position: Int, yi: Label, yiminus1: Label, s: Sentence) : Double =
   {
     if (position > 0) {
       val previous_term = s(position - 1)
@@ -141,17 +155,23 @@ object LinearCRF {
     }
     features.reduceLeft(_*_)
   }
-//
-//  def probability(y: Array[Label], x: Array[Term], theta: DenseVector[Double]) = {
-//    weightedFeatures(y, x, theta) / normalization(x, theta)
-//
-//
-//  }
-//
-//
-//  def likelihood(theta: DenseVector[Double]) {
-//    0.0
-//  }
+
+  def probability(y: Array[Label], x: Array[Term], theta: DenseVector[Double]) = {
+    weightedFeatures(y, x, theta) / normalization(x, theta)
+  }
+
+// This function is actually log likelihood, which is the probablity fuction for all N training data
+  def likelihood(theta: DenseVector[Double]) {
+
+    val probabilities = for (sentence <- HelloWordApp.getTrainingData()) yield {
+//      FIXME: what goes here for x and y
+      // log(probability(y, x, theta))
+    }
+
+    probabilities.reduceLeft(_ + _)
+
+
+  }
 //
 //  def likelihoodGradient(theta: DenseVector[Double]) {
 //    DenseVector(0.0)

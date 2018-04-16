@@ -79,5 +79,11 @@ object HelloWordApp extends App {
   }
 
 
+  def getTrainingData() : Array[String] =
+    {
+//      TODO: implement this
+      Array("training line 1", "training line 2")
+    }
+
 
 }
