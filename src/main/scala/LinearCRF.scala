@@ -167,10 +167,7 @@ object LinearCRF {
 //      FIXME: what goes here for x and y
       // log(probability(y, x, theta))
     }
-
     probabilities.reduceLeft(_ + _)
-
-
   }
 //
 //  def likelihoodGradient(theta: DenseVector[Double]) {
